@@ -1,0 +1,24 @@
+extends layout.pug
+
+block variables
+  - hardTitle = config.person.name
+
+block append resources
+  link(rel="stylesheet" type="text/css" href="/assets/css/homepage.css")
+  script(src='/assets/js/homepage.js' async)
+
+block append head
+  noscript
+    style.
+      #typewriter {
+        display: none;
+      }
+      #typewriter__fallback {
+        font-size: inherit;
+        margin-top: 0.25rem;
+        margin-bottom: 1rem;
+      }
+
+block append header
+  p#typewriter__fallback Part-time polymath
+  p#typewriter(aria-hidden="true")
