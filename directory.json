@@ -1,5 +1,7 @@
 {
   "/": "homepage.pug",
   "/social/": "social.pug",
-  "/customize-feed/": "customize-feed.pug"
+  "/customize-feed/": "customize-feed.pug",
+
+  "/admin/": "admin/dashboard.pug"
 }

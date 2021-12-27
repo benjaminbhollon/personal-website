@@ -40,6 +40,11 @@ app.use((request, response, next) => {
 app.set('view engine', 'pug');
 app.set('views', './templates');
 
+// Admin router
+const adminRouter = require('./routers/admin');
+
+app.use('/admin/', adminRouter);
+
 // Projects homepage
 app.get('/projects/', async (request, response) => {
   let projects = [];
@@ -139,11 +144,6 @@ async function updateFeeds() {
 
       setTimeout((async (f) => {
         feedCaches[f] = false;
-        try {
-          updateFeeds();
-        } catch(err) {
-          console.warn(err);
-        }
       }).bind(this, f), Math.floor((Math.random() /* (5 * 1000 * 60)*/) + (/*5 */ 1000 * 60)));
     }
   }
