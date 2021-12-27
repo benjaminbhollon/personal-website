@@ -2,6 +2,7 @@
 const express = require('express');
 const compression = require('compression');
 const bodyParser = require('body-parser');
+const marked = require('marked');
 const basicAuth = require('express-basic-auth');
 const cookieParser = require('cookie-parser');
 const parser = new (require('rss-parser'))();
@@ -47,9 +48,76 @@ app.get('/projects/', async (request, response) => {
   });
   response.render('projects.pug', {
     projects,
+    marked,
     cookies: request.cookies,
     config
   });
+});
+
+// Writing homepage
+app.get('/writing/', async (request, response) => {
+  let writing = [];
+  await crud.findMultipleDocuments('writing', {}).then((result) => {
+    writing = result;
+  });
+
+  return response.render('writing.pug', {
+    writing,
+    marked,
+    config,
+    cookies: request.cookies
+  });
+});
+
+app.get('/writing/:workId/', async (request, response) => {
+  let work = {};
+  await crud.findDocument('writing', { id: request.params.workId }).then((result) => {
+    work = result;
+  });
+
+  if (work === null || work.published === false || work.published.website !== true) {
+    return response.render('errors/404.pug', { cookies: request.cookies });
+  }
+
+  return response.render('writingwork.pug', {
+    work,
+    title: work.title,
+    metaDescription: marked.parse(work.synopsis.split('\n\n')[0]).replace(/(<([^>]+)>)/ig, ''),
+    cookies: request.cookies,
+    marked,
+    config,
+  });
+});
+
+
+// Change color theme
+const supportedThemes = ['dark', 'light'];
+app.get('/settings/theme/:theme', async (request, response) => {
+  if (supportedThemes.indexOf(request.params.theme) === -1) return response.status(404).end();
+
+  response.cookie('theme', request.params.theme);
+  if (request.query.refresh === 'false') return response.status(204).end();
+  else return response.redirect(302, request.headers['referer']);
+});
+
+// Change font family
+const supportedFontFamilies = ['serif', 'sans', 'monospace'];
+app.get('/settings/font/:fontFamily', async (request, response) => {
+  if (supportedFontFamilies.indexOf(request.params.fontFamily) === -1) return response.status(404).end();
+
+  response.cookie('fontFamily', request.params.fontFamily);
+  if (request.query.refresh === 'false') return response.status(204).end();
+  else return response.redirect(302, request.headers['referer']);
+});
+
+// Change size
+app.get('/settings/size/:size', async (request, response) => {
+  const size = parseInt(request.params.size);
+  if (size < 1 || size > 5) return response.status(404).end();
+
+  response.cookie('size', size);
+  if (request.query.refresh === 'false') return response.status(204).end();
+  else return response.redirect(302, request.headers['referer']);
 });
 
 // Customized RSS
@@ -90,7 +158,7 @@ try {
 app.get('/feed/', async (request, response) => {
   await updateFeeds();
 
-  const items = request.query.from
+  const items = (request.query.from || 'swec,verbguac')
     .split(',')
     .map((f) => feedCaches[f])
     .flat()
@@ -111,9 +179,9 @@ app.get('/feed/', async (request, response) => {
     description: 'A customized aggregation of feeds from multiple sites by Benjamin Hollon.',
     feed_url: request.protocol + '://' + request.hostname + request.url,
     site_url: request.protocol + '://' + request.hostname,
-    managingEditor: 'Benjamin Hollon <br3zls68l@mozmail.com>',
-    webMaster: 'Benjamin Hollon <br3zls68l@mozmail.com>',
-    copyright: 'Verbose Guacamole: CC BY-NC 4.0\nSee With Eyes Closed: CC BY-SA 4.0\nMastodon: Unknown. Research needed.',
+    managingEditor: 'Benjamin Hollon',
+    webMaster: 'Benjamin Hollon',
+    copyright: 'Verbose Guacamole: CC BY-NC 4.0\nSee With Eyes Closed: CC BY-SA 4.0\nMastodon: CC BY-SA 4.0',
     language: 'en',
   });
 

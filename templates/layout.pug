@@ -1,5 +1,5 @@
 doctype html
-html(lang='en-us' data-theme=(cookies.theme || 'light') data-font-family=(cookies.fontFamily || 'serif'))
+html(lang='en-us' data-size=(cookies.size || 3) data-theme=(cookies.theme || 'light') data-font-family=(cookies.fontFamily || 'serif'))
   head
     block head
       block variables
@@ -25,6 +25,7 @@ html(lang='en-us' data-theme=(cookies.theme || 'light') data-font-family=(cookie
     block mixins
       include mixins/form.pug
       include mixins/verse.pug
+      include mixins/settings.pug
     #column
       header
         block header
@@ -52,6 +53,7 @@ html(lang='en-us' data-theme=(cookies.theme || 'light') data-font-family=(cookie
             != md.render(content)
           else
             p This page does not seem to have any content. Check back later!
+      +displaySettings
       block footer
         footer          
           p

@@ -1,0 +1,14 @@
+extends layout.pug
+    
+block variables
+  if (work.image)
+    - metaImage = work.image
+    
+block append header
+  p by #{work.author}
+
+block content
+  article
+    .article__content
+      != marked.parse(work.content)
+  p.--center: a(href="/writing/") More writing from #{config.person.name}

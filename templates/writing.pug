@@ -1,0 +1,31 @@
+extends layout.pug
+
+block variables
+  - title = "Writing"
+  - metaDescription = "A repository of all my literary works, published or not."
+
+block content
+  p Here's a list of all the writing I've had published or self-published.
+  .listings
+    if writing.length
+      each work in writing
+        if work.published
+          .listing
+            h2.--center #{work.title}
+            p.listing__author.--center
+              cite by #{work.author}
+            .listing__synopsis
+              h3.--center Synopsis
+              != marked.parse(work.synopsis)
+            if work.excerpt
+              details.listing__excerpt
+                summary Read Exerpt
+                != marked.parse(work.excerpt)
+            .details.--center
+              h3 Details
+              p Type: #{work.type}
+              p Genre: #{work.genre}
+            p.--center: a(href=work.published.link target="_blank" rel="noopener") Read Now
+            br
+    else
+      p ...that is, there'll be a list once I've published something. :)
