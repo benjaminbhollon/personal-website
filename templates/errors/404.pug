@@ -1,0 +1,26 @@
+extends ../layout.pug
+
+block variables
+  - hardTitle = "404 Error: We Can't Find Russel's Teapot"
+  - metaDescription = "An oopsie happened. That page isn't where it was supposed to be. Want to look for it with us?"
+
+block header
+  h1 404 Error
+  p We can't find Russel's Teapot.
+
+block content
+  .vcenter
+    p An oopsie happened. That page isn't where it was supposed to be. Here's what you can do to try and find it:
+    ul
+      li
+        strong Double check your spelling
+        |  — We all make tpyos sometimes.
+      li
+        strong Check <a href="/projects/" target="_blank" rel="noopener">the projects page</a>
+        |  — If you were looking for a project of mine, you should be able to find it <a href="/projects/" target="_blank" rel="noopener">here</a>.
+      li
+        strong Search between Earth and Mars
+        |  — <a href="https://en.wikipedia.org/wiki/Russell%27s_teapot" target="_blank" rel="noopener">Make sure you know where the burden of proof lies.</a>
+      li
+        strong <a href="/contact/" target="_blank" rel="nofollow">Contact me</a>
+        |  — If all else fails, I can try and help you find what you're looking for.

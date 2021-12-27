@@ -26,24 +26,26 @@ html(lang='en-us' data-theme=(cookies.theme || 'light') data-font-family=(cookie
       include mixins/form.pug
       include mixins/verse.pug
     #column
-      //-p.no-dropcap: a.sr-only(href="#content__beginning") Skip to Content
       header
         block header
           h1= title || hardTitle
 
       block navbar
         nav#main-nav
-          a(href="/") Home
+          span: a.tab-only(href="#content") Skip Navigation
           |
           |
-          a(href="https://seewitheyesclosed.com/" target="_blank" rel="noopener") Blog
-          |
-          |
-          //-a(href="/subscribe/") Subscribe
-          a(href="/projects/") Projects
-          |
-          |
-          a(href="/writing/") Writing
+          block navbar-links
+            span: a(href="/") Home
+            |
+            |
+            span: a(href=config.blog.link title=("Visit " + config.blog.name) target="_blank" rel="noopener") Blog
+            |
+            |
+            span: a(href="/projects/") Projects
+            |
+            |
+            span: a(href="/writing/") Writing
       main#content(tabindex="-1")
         block content
           if (content)
@@ -62,12 +64,10 @@ html(lang='en-us' data-theme=(cookies.theme || 'light') data-font-family=(cookie
             a(href="https://github.com/benjaminbhollon/personal-website" target="_blank" rel="noopener") Code
           +verse
           p
-            a(href="/contact/") Contact Me
+            a(href="https://seewitheyesclosed.com/contact/" target="_blank" rel="noopener") Contact Me
             |  | 
-            a(href="/policies/privacy/") Privacy Policy
+            a(href="https://seewitheyesclosed.com/policies/privacy/" target="_blank" rel="noopener") Privacy Policy
             |  | 
-            a(href="/policies/cookies/") Cookie Policy
+            a(href="https://seewitheyesclosed.com/policies/cookies/" target="_blank" rel="noopener") Cookie Policy
             |  | 
-            a(href="/policies/terms/") Terms of Use
-            //-div#wcb.carbonbadge.wcb-d
-        //-script(src="https://unpkg.com/website-carbon-badges@1.1.1/b.min.js" async)
+            a(href="https://seewitheyesclosed.com/policies/terms/" target="_blank" rel="noopener") Terms of Use

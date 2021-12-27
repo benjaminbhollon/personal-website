@@ -160,7 +160,7 @@ form {
   max-width: 500px;
 }
 
-input, textarea, label:not(#displaySettings__label *) {
+input, textarea, label {
   margin: 0.5em 0;
   width: 100%;
   display: block;
@@ -172,7 +172,7 @@ input::placeholder, textarea::placeholder {
   color: var(--light-color);
 }
 
-label:not(#displaySettings__label > *) {
+label:not(.no-bold) {
   font-weight: bold;
   padding: initial;
 }
@@ -205,13 +205,20 @@ header {
   padding: 0.25em;
   background-color: var(--background-color);
   z-index: 100;
+  display: flex;
+  flex-flow: row wrap;
+
+}
+
+#main-nav > * {
+  flex-grow: 1;
+  margin: 0 0.25em;
 }
 
 #main-nav a {
   text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
-  margin: 0 0.125em;
 }
 
 #main-nav a::after {

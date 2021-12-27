@@ -1,0 +1,40 @@
+extends layout.pug
+
+block variables
+  - title = "Customize an RSS Feed"
+
+block append resources
+  script(src="/assets/js/generateFeed.js")
+
+block content
+  p I have multiple RSS feeds <a href="https://seewitheyesclosed.com/what-is-rss/" target="_blank" rel="noopener">(What is this?)</a> in different locations on the web which you can subscribe to. Here, you can combine them and customize exactly what shows up in your final feed.
+  +form('GET', 'javascript:generateFeedLink()', [
+    {
+      type: 'heading',
+      value: 'Select Feeds',
+      description: 'Here are the different feeds you can include results from:'
+    },
+    {
+      type: 'checkbox',
+      checked: 'true',
+      label: 'See With Eyes Closed articles <a href="https://seewitheyesclosed.com/articles/" target="_blank" rel="noopener">(View)</a>',
+      id: 'swec-feed'
+    },
+    {
+      type: 'checkbox',
+      checked: 'true',
+      label: 'Verbose Guacamole news and articles <a href="https://verboseguacamole.com/news/" target="_blank" rel="noopener">(View)</a>',
+      id: 'verbguac-feed'
+    },
+    {
+      type: 'checkbox',
+      label: 'Mastodon posts <a href="https://fosstodon.org/@benjaminhollon/" target="_blank" rel="noopener me">(View)</a>',
+      id: 'masto-feed'
+    },
+  ], 'Generate Link')
+  
+  #final.hidden
+    label Your final link:
+    p#finalFeed No link generated yet.
+  
+  p Please note: To avoid strain on my server, the final feed caches its sources for 5-10 minutes, so while your results <em>may</em> show up immediately after publication, it could take up to ten minutes.

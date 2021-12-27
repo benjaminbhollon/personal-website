@@ -1,3 +1,5 @@
 {
-  "/": "homepage.pug"
+  "/": "homepage.pug",
+  "/social/": "social.pug",
+  "/customize-feed/": "customize-feed.pug"
 }
