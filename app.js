@@ -30,8 +30,7 @@ app.use((request, response, next) => {
     return response.render(directory[request.path], {
       parameters: request.query,
       config,
-      cookies:
-      request.cookies,
+      cookies: request.cookies,
     });
   }
 
