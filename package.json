@@ -32,7 +32,7 @@
     "sendmail": "^1.6.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.15"
   },
   "author": "Benjamin Hollon",
   "license": "GPL-3.0",
