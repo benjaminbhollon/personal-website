@@ -67,7 +67,7 @@ app.get('/musings/feed/', async (request, response) => {
       if (article.content.indexOf('<script') === -1 && article.content.indexOf('<style') === -1) {
         return `<item>
           <title>${article.title}</title>
-          <link>https://${request.hostname}/articles/${article.id}/</link>
+          <link>https://${request.hostname}/musings/${article.id}/</link>
           <guid isPermaLink="false">${article._id.toString()}</guid>
           <pubDate>${date.toUTCString()}</pubDate>
           <description>${encode(marked.parse(article.content + appendComplete.replace('[[ID]]', article.id)), {mode: 'nonAsciiPrintable', level: 'xml'})}</description>
@@ -76,7 +76,7 @@ app.get('/musings/feed/', async (request, response) => {
 
       return `<item>
         <title>${article.title}</title>
-        <link>https://${request.hostname}/articles/${article.id}/</link>
+        <link>https://${request.hostname}/musings/${article.id}/</link>
         <guid isPermaLink="false">${article._id.toString()}</guid>
         <pubDate>${date.toUTCString()}</pubDate>
         <description>${encode(marked.parse(article.summary + appendSummary.replace('[[ID]]', article.id)), {mode: 'nonAsciiPrintable', level: 'xml'})}</description>
@@ -92,7 +92,7 @@ app.get('/musings/feed/', async (request, response) => {
   <description>A personal blog by Benjamin Hollon.</description>
   <language>en-us</language>
   <copyright>© Benjamin Hollon ${(new Date()).getFullYear()}. Content licensed under CC BY-SA 4.0.</copyright>
-  <link>https://${request.hostname}/</link>${
+  <link>https://${request.hostname}/musings/</link>${
   feed.join('')
 }
   </channel>
