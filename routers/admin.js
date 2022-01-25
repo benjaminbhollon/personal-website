@@ -20,12 +20,12 @@ router.get('/musings/', async (request, response) => {
 
 router.get('/musings/:articleId/edit', async (request, response) => {
   let article = {};
-  await crud.findDocument('articles', { id: request.params.articleId }).then((result) => {
+  await crud.findDocument('musings', { id: request.params.articleId }).then((result) => {
     article = result;
   });
-  if (article === null) return response.render('errors/404.pug', {});
+  if (article === null) return response.render('errors/404.pug', { config, cookies: request.cookies });
 
-  response.render('admin/editarticle.pug', { article, cookies: request.cookies });
+  response.render('admin/editmusing.pug', { article, cookies: request.cookies });
 });
 
 router.post('/musings/:articleId/edit', async (request, response) => {
@@ -49,7 +49,7 @@ router.post('/musings/:articleId/edit', async (request, response) => {
   response.redirect(302, '/admin/musings/');
 });
 
-router.get('/articles/:articleId/delete', async (request, response) => {
+router.get('/musings/:articleId/delete', async (request, response) => {
   await crud.deleteDocument('musings', { id: request.params.articleId });
 
   response.redirect(302, '/admin/musings/');

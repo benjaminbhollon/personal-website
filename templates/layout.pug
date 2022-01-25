@@ -10,12 +10,12 @@ html(lang='en-us' data-size=(cookies.size || 3) data-theme=(cookies.theme || 'li
         meta(charset="UTF-8")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         meta(name="description" content=metaDescription)
-        meta(property="og:title" content=(hardTitle || title))
+        meta(property="og:title" content=(hardTitle || title + " | Benjamin Hollon"))
         meta(property="og:type" content=(metaType || 'website'))
         meta(property="og:description" content=metaDescription)
         //-meta(property="og:image" content=metaImage)
         block title
-          title= hardTitle || (title + " | See With Eyes Closed")
+          title= hardTitle || (title + " | Benjamin Hollon")
       link(rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon.ico")
       noscript
         style.
