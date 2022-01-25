@@ -47,9 +47,9 @@ app.use('/admin/', adminRouter);
 
 // Feeds
 app.get('/musings/feed/', async (request, response) => {
-  const appendComplete = `\n\n---\n\nThis article was first published on [the Musings website](https://${request.hostname}/), but the full article was generously provided to you via RSS. Please consider [visiting the article on the site](https://${request.hostname}/articles/[[ID]]/) to leave feedback or view similar See With Eyes Closed articles.`;
+  const appendComplete = `\n\n---\n\nThis article was first published on [the Musings website](https://${request.hostname}/musings/), but the full article was generously provided to you via RSS. Please consider [visiting the article on the site](https://${request.hostname}/musings/[[ID]]/) to leave feedback or view similar See With Eyes Closed articles.`;
 
-  const appendSummary = `\n\n---\n\nThis article has elements in it that cannot be sent through RSS. You can [view the full article](https://${request.hostname}/articles/[[ID]]/) on [the Musings website](https://${request.hostname}/).`;
+  const appendSummary = `\n\n---\n\nThis article has elements in it that cannot be sent through RSS. You can [view the full article](https://${request.hostname}/musings/[[ID]]/) on [the Musings website](https://${request.hostname}/musings/).`;
 
   let articles = [];
 
