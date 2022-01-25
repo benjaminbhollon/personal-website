@@ -3,5 +3,6 @@
   "/social/": "social.pug",
   "/customize-feed/": "customize-feed.pug",
 
-  "/admin/": "admin/dashboard.pug"
+  "/admin/": "admin/dashboard.pug",
+  "/admin/musings/new": "admin/newmusing.pug"
 }

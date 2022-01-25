@@ -5,6 +5,7 @@ html(lang='en-us' data-size=(cookies.size || 3) data-theme=(cookies.theme || 'li
       block variables
       block resources
         link(rel="stylesheet" href="/assets/css/global.css")
+        script(src="/assets/js/global.js")
       block meta
         meta(charset="UTF-8")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
@@ -41,6 +42,9 @@ html(lang='en-us' data-size=(cookies.size || 3) data-theme=(cookies.theme || 'li
             |
             |
             span: a(href=config.blog.link title=("Visit " + config.blog.name) target="_blank" rel="noopener") Blog
+            |
+            |
+            span: a(href="/musings/") Musings
             |
             |
             span: a(href="/projects/") Projects

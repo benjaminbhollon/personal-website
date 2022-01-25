@@ -2,6 +2,7 @@ function generateFeedLink() {
   q = (s) => document.querySelector(s)
   const feeds = [
     (!q('#swec-feed').checked || 'swec'),
+    (!q('#musings-feed').checked || 'musings'),
     (!q('#verbguac-feed').checked || 'verbguac'),
     (!q('#masto-feed').checked || 'masto'),
   ].filter(i => typeof i === 'string').join(',');

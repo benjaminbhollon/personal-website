@@ -1,0 +1,16 @@
+extends layout.pug
+
+block variables
+  - title = "Manage Musings"
+
+block content
+  .--center
+    if articles.length
+      each article in articles
+        .article
+          h2 #{article.title}
+          p by #{article.author} on #{article.date}
+          p
+            a(href=(`./${article.id}/edit`)) Edit
+    else
+      p No Musings. <a href="/admin/musings/new">Make one.</a>

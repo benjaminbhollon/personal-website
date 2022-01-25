@@ -3,22 +3,22 @@ const express = require('express');
 
 // Local modules
 const config = require('../config.json');
-const crud = require('@bibliobone/mongodb-crud').bind(config.mongodbURI, 'swec-core');
+const crud = require('@bibliobone/mongodb-crud').bind(config.mongodbURI, config.dbName);
 
 const router = express.Router();
 
 // Routes
-router.get('/articles/', async (request, response) => {
+router.get('/musings/', async (request, response) => {
   let articles = [];
-  await crud.findMultipleDocuments('articles', {}).then((result) => {
+  await crud.findMultipleDocuments('musings', {}).then((result) => {
     if (result !== null) articles = result;
   });
   articles.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  response.render('admin/articles.pug', { articles, cookies: request.cookies });
+  response.render('admin/musings.pug', { articles, cookies: request.cookies });
 });
 
-router.get('/articles/:articleId/edit', async (request, response) => {
+router.get('/musings/:articleId/edit', async (request, response) => {
   let article = {};
   await crud.findDocument('articles', { id: request.params.articleId }).then((result) => {
     article = result;
@@ -28,7 +28,7 @@ router.get('/articles/:articleId/edit', async (request, response) => {
   response.render('admin/editarticle.pug', { article, cookies: request.cookies });
 });
 
-router.post('/articles/:articleId/edit', async (request, response) => {
+router.post('/musings/:articleId/edit', async (request, response) => {
   const article = {
     title: request.body.title,
     author: request.body.author,
@@ -38,88 +38,24 @@ router.post('/articles/:articleId/edit', async (request, response) => {
     content: request.body.content,
     tags: request.body.tags.split(',').map((tag) => tag.trim()),
   };
-  await crud.findDocument('articles', { id: request.params.articleId }).then((result) => {
+  await crud.findDocument('musings', { id: request.params.articleId }).then((result) => {
     article.comments = (request.body.comments === 'on');
     if (article.comments && result.comments) article.comments = result.comments;
     else article.comments = false;
   });
 
-  await crud.updateDocument('articles', { id: request.params.articleId }, article);
+  await crud.updateDocument('musings', { id: request.params.articleId }, article);
 
-  response.redirect(302, '/admin/articles/');
+  response.redirect(302, '/admin/musings/');
 });
 
 router.get('/articles/:articleId/delete', async (request, response) => {
-  await crud.deleteDocument('articles', { id: request.params.articleId });
+  await crud.deleteDocument('musings', { id: request.params.articleId });
 
-  response.redirect(302, '/admin/articles');
+  response.redirect(302, '/admin/musings/');
 });
 
-router.get('/manage/comments/', async (request, response) => {
-  let articles = [];
-  await crud.findMultipleDocuments('articles', {}).then((result) => {
-    if (result !== null) articles = result;
-  });
-  articles.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-  // Comments time ago
-  function timeSince(date) {
-    const seconds = Math.floor((new Date() - date) / 1000);
-
-    let interval = seconds / 31536000;
-
-    if (interval > 1) {
-      return `${Math.floor(interval)} years`;
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return `${Math.floor(interval)} months`;
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return `${Math.floor(interval)} days`;
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return `${Math.floor(interval)} hours`;
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return `${Math.floor(interval)} minutes`;
-    }
-    return `${Math.floor(seconds)} seconds`;
-  }
-  articles.map((a) => {
-    if (a.comments) {
-      const article = a;
-      article.comments = article.comments.map((comment) => {
-        const newComment = { ...comment };
-        newComment.time = `${timeSince(newComment.time * 1000)} ago`;
-        return newComment;
-      });
-      return article;
-    }
-    return false;
-  });
-
-  response.render('admin/managecomments.pug', { articles, cookies: request.cookies });
-});
-
-router.get('/manage/comments/:articleId/:index/delete', async (request, response) => {
-  let article = {};
-  await crud.findDocument('articles', { id: request.params.articleId }).then((result) => {
-    article = result;
-  });
-
-  if (article === null) return response.render('errors/404.pug', {});
-
-  article.comments.splice(request.params.index, 1);
-
-  await crud.updateDocument('articles', { id: request.params.articleId }, { comments: article.comments });
-  response.redirect(302, '/admin/manage/comments/');
-});
-
-router.post('/articles/new', async (request, response) => {
+router.post('/musings/new', async (request, response) => {
   const today = new Date();
   const months = [
     'January',
@@ -137,7 +73,7 @@ router.post('/articles/new', async (request, response) => {
   ];
   const article = {
     id: request.body.id,
-    title: request.body.title,
+    title: request.body.title.toString().toLowerCase(),
     author: request.body.author,
     date: (request.body.date ? request.body.date : `${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`),
     image: request.body.image.toString(),
@@ -152,7 +88,7 @@ router.post('/articles/new', async (request, response) => {
         count: 0,
       },
       {
-        name: 'funny',
+        name: 'surprising',
         count: 0,
       },
       {
@@ -170,9 +106,9 @@ router.post('/articles/new', async (request, response) => {
     ],
   };
 
-  await crud.insertDocument('articles', article);
+  await crud.insertDocument('musings', article);
 
-  return response.redirect(302, `/blog/article/${request.body.id}/`);
+  return response.redirect(302, `/musings/${request.body.id}/`);
 });
 
 router.get('/manage/writing/', async (request, response) => {

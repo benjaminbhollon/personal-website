@@ -1,3 +1,7 @@
+header h1 {
+  font-size: 3em;
+}
+
 /* typewriter */
 #typewriter__fallback {
   font-size: 0;

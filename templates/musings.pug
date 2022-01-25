@@ -1,0 +1,40 @@
+extends layout.pug
+
+//- Define variables
+block variables
+  - title = "Musings"
+  - metaDescription = "A more personal blog than See With Eyes Closed, Musings is a place for me to share random ideas, news, and off-topic posts. It's informal and will sometimes respond to things happening on my other sites."
+  
+block append resources
+  link(rel="stylesheet" href="/assets/css/article.css")
+  script(src="/assets/js/article.js" async)
+
+block append mixins
+  //-include ./mixins/reactions.pug
+    
+block content
+  if !series
+    if recent.length
+      each post in recent
+        .article
+          h2: a(href="/musings/" + post.id + "/")= post.title
+          p.article__details <time datetime="#{new Date(post.date).toISOString().split('T')[0]}">#{post.date}</time> by #{post.author}
+          != marked.parse(post.summary)
+          if (post.reactions.filter(r => r.count).length)
+            +reactions(post.reactions, false, post.comments.length)
+          p.readMore: a(href="/musings/" + post.id + "/") Read the full article
+    else
+      p.--center No articles have been published yet. Check back later!
+  else
+    p You are viewing articles in the series on #{series.topic}, in order from beginning to end. You can also view <a href="/musings/">all articles</a>.
+    if articles.length
+      each post in articles
+        .article
+          h2: a(href="/musings/" + post.id + "/")= post.title
+          p.article__details <time datetime="#{new Date(post.date).toISOString().split('T')[0]}">#{post.date}</time> by #{post.author}
+          != marked.parse(post.summary)
+          if (post.reactions.filter(r => r.count).length)
+            +reactions(post.reactions, false, post.comments.length)
+          p.readMore: a(href="/musings/" + post.id + "/") Read the full article
+      else
+        p.--center No musings have been published yet. Check back later!
